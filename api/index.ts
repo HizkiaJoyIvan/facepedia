@@ -2,6 +2,7 @@ import express, {Application, Request, Response} from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoute from './routes/authRoute'
+import userRoute from './routes/userRoute'
 import {connectDB} from './db'
 import mongoose from 'mongoose'
 
@@ -18,6 +19,7 @@ app.get('/', (req: Request,res: Response) => {
 })
 
 app.use('/api/auth', authRoute)
+app.use('/api/user', userRoute)
 
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB')
