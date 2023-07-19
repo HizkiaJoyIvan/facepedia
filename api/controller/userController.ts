@@ -39,3 +39,14 @@ export const updateUser = async (req: Request, res: Response) => {
         return res.status(500).json(err)
     }
 }
+
+export const postUser = async (req: Request, res: Response) => {
+    try {
+        if(!req.body.username || !req.body.pwd || !req.body.email) return res.status(400).json('Not enough field')
+        const newUser = new User(req.body)
+        await newUser.save()
+        return res.status(200).json('New user has been created')
+    } catch(err) {
+        return res.status(500).json(err)
+    }
+}

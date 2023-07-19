@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import {Request, Response, NextFunction} from 'express'
 
-export const verify = (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(' ')[1]
     if(token){
         jwt.verify(token, process.env.JWT_SECRET_KEY as string, (err: jwt.VerifyErrors | null, user: any) => {
