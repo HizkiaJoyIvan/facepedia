@@ -45,3 +45,13 @@ export const getAllPosts = async (req: Request, res: Response) => {
         return res.status(500).json(err)
     }
 }
+
+export const createPost = async (req: Request, res: Response) => {
+    try {
+        const post = new Post(req.body)
+        await post.save()
+        return res.status(200).json('New post has been created')
+    } catch(err) {
+        return res.status(500).json(err)
+    }
+}
