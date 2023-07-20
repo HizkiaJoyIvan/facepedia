@@ -6,7 +6,7 @@ router.get('/:id', getPost)
 
 router.post('/', createPost)
 
-router.get('/:userId', getAllPosts)
+router.get('/all/:userId', getAllPosts)
 
 router.delete('/:id', deletePost)
 
