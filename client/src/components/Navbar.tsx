@@ -1,6 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 const Navbar: React.FC = () => {
+
+
   return (
     <nav className='bg-blue-500'>
       <div className="max-w-7xl mx-auto px-4">
@@ -15,6 +18,7 @@ const Navbar: React.FC = () => {
               <a href="#" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Home</a>
               <a href="#" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Profile</a>
               <a href="#" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Friends</a>
+              <a href="/login" className='text-white bg-blue-700 hover:bg-blue-300 px-3 py-2 rounded-md'>Logout</a>
             </div>
           </div>
         </div>

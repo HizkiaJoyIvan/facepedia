@@ -5,14 +5,14 @@ import axios from 'axios'
 
 interface postProps {
     userId: string
-    title: string
     desc: string
     image: string
     likes: string[]
 }
 
-const Post: React.FC<postProps> = ({userId, title, desc, image, likes}) => {
+const Post: React.FC<postProps> = ({userId, desc, image, likes}) => {
 
+    const publicFolder = "http://localhost:3200/api/images/"
     const [username, setUsername] = useState<string>('')
 
     useEffect(()=> {
@@ -38,7 +38,8 @@ const Post: React.FC<postProps> = ({userId, title, desc, image, likes}) => {
         <p className="mb-5">
             {desc}
         </p>
-        <div className='flex items-center gap-5'>
+        <img src={publicFolder+image} alt="" className='w-1/2 h-1/2'/>
+        <div className='flex items-center gap-5 mt-2'>
             <ThumbUp />
             <Favorite />
         </div>

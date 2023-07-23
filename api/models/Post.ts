@@ -13,16 +13,16 @@ const postSchema = new mongoose.Schema<IPost>({
         type: String,
         required: true
     },
-    title: {
-        type: String,
-        required: true
-    },
     desc: {
         type: String,
         required: true
     },
     image: {
         type: String,
+    },
+    likes: {
+        type: [String],
+        default: []
     }
 })
 

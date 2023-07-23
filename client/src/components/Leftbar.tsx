@@ -1,18 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import OtherHouses from '@mui/icons-material/OtherHouses'
 import axios from 'axios'
+import { AuthContext } from '../context/AuthContext'
 
-interface userData {
+export interface userData {
   username: string
   email: string
   profilePicture: string
 }
 
-const userId = '64b8c52f8d04d5af49b7dcd2'
-
 const Leftbar: React.FC = () => {
 
   const [userdata, setUserdata] = useState<userData>()
+  const {userId} = useContext(AuthContext)
 
   useEffect(() => {
     const fetchData = async () => {
