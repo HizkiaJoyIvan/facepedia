@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 interface AuthContextValue {
     userId: string
@@ -16,8 +16,13 @@ interface AuthContextProps {
 }
 
 export const AuthContextProvider:React.FC<AuthContextProps> = ({ children }) => {
-  const [userId, setUserId] = useState<string>('')
+  const [userId, setUserId] = useState<string>(() => {
+    return localStorage.getItem('userId') || ''
+  })
 
+  useEffect(() => {
+    localStorage.setItem('userId', userId)
+  }, [userId])
 
   return (
     <AuthContext.Provider value={{ userId, setUserId }}>
