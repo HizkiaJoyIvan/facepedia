@@ -1,9 +1,10 @@
 import React, {useContext} from 'react'
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 
 const Navbar: React.FC = () => {
 
-  const {setUserId} = useContext(AuthContext)
+  const {userId, setUserId} = useContext(AuthContext)
 
   return (
     <nav className='bg-blue-500'>
@@ -17,7 +18,7 @@ const Navbar: React.FC = () => {
           <div className="hidden md:block">
             <div className="flex">
               <a href="/" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Home</a>
-              <a href="/profile" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Profile</a>
+              <Link to={`/profile/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Profile</Link>
               <a href="/friends" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Friends</a>
               <button 
                 className='text-white bg-blue-700 hover:bg-blue-300 px-3 py-2 rounded-md'

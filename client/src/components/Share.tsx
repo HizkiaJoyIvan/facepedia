@@ -61,7 +61,7 @@ const Share: React.FC = () => {
     <div className="bg-white p-4 shadow-md rounded-lg">
       <div className="flex items-center mb-4">
         <div className="bg-blue-500 rounded-full w-8 h-8 mr-2"></div>
-        <div className="font-bold text-gray-700">{userdata?.username}</div>
+        <div className="font-bold text-gray-700">You</div>
       </div>
       <input 
         type="text" 

@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import { AuthContext } from './context/AuthContext'
+import Profile from './pages/Profile'
 
 const App:React.FC = () => {
 
@@ -16,6 +17,7 @@ const App:React.FC = () => {
         <Route path='/' element={userId ? <Home /> : <Login />}/> 
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={userId ? <Navigate to={'/'}/> : <Login />} />
+        <Route path='/profile/:id' element={userId ? <Profile /> : <Login />}/>
       </Routes>
     </BrowserRouter>
   );
