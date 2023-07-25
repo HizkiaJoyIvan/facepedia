@@ -46,6 +46,23 @@ export const getAllPosts = async (req: Request, res: Response) => {
     }
 }
 
+export const getTimelinePosts = async (req: Request, res: Response) => {
+    try {
+        const currentUser = await User.findById(req.params.userId)
+        if(!currentUser) return res.status(404).json('User not found')
+        const userPosts = await Post.find({userId: currentUser._id})
+        const friendPosts = await Promise.all(
+            currentUser.followings.map((friendId) => {
+                return Post.find({userId: friendId})
+            })
+        )
+        
+        res.status(200).json(friendPosts.flat())
+    } catch(err) {
+        return res.status(500).json(err)
+    }
+}
+
 export const createPost = async (req: Request, res: Response) => {
     try {
         const post = new Post(req.body)

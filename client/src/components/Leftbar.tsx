@@ -7,6 +7,8 @@ export interface userData {
   username: string
   email: string
   profilePicture: string
+  followings?: string[]
+  followers?: string[]
 }
 
 const Leftbar: React.FC = () => {

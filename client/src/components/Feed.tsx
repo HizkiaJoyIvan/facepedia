@@ -21,7 +21,7 @@ const Feed: React.FC = () => {
   useEffect(()=> {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:3200/api/post/all/${userId}`)
+        const res = await axios.get(`http://localhost:3200/api/post/timeline/${userId}`)
         setPosts(res.data)
       } catch(err){
         console.log(err)
