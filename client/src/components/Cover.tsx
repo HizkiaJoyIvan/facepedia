@@ -3,6 +3,7 @@ import { ProfileID } from './ProfileFeed'
 import axios from 'axios'
 import { userData } from './Leftbar'
 import { AuthContext } from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 
 const Cover: React.FC<ProfileID> = ({id}) => {
 
@@ -68,15 +69,18 @@ const Cover: React.FC<ProfileID> = ({id}) => {
                   <h1 className="text-2xl font-bold">{userdata?.username}</h1>
                   <p className="text-gray-600">{userdata?.email}</p>
           </div>
-          {userId !== id && (
-            <div className="px-4 ml-2 h-30 pb-5">
-              {userdata?.followers?.includes(userId) ? (
-                <button className='bg-blue-500 rounded-md px-3 py-2 text-white' onClick={handleUnfollow}>Unfollow</button>
-              ) : (
-                <button className='bg-blue-800 rounded-md px-3 py-2 text-white' onClick={handleFollow}>Follow</button>
-              )}
-            </div>
-          )}
+          <div className='flex items-center gap-5 justify-center p-2'>
+            {userId !== id && (
+              <div className="px-4 ml-2 h-30 pb-5">
+                {userdata?.followers?.includes(userId) ? (
+                  <button className='bg-blue-500 rounded-md px-3 py-2 text-white' onClick={handleUnfollow}>Unfollow</button>
+                ) : (
+                  <button className='bg-blue-800 rounded-md px-3 py-2 text-white' onClick={handleFollow}>Follow</button>
+                )}
+                <Link to={`/friends/${id}`} className='bg-gray-200 rounded-md px-3 py-2 ml-3'>Friend List</Link>
+              </div>
+            )}
+          </div>
         </div>
     </div>
   )

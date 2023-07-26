@@ -100,3 +100,19 @@ export const unfollowUser = async (req:Request, res:Response) => {
         return res.status(403).json('You cant unfollow your own account')
     }
 }
+
+export const getFriends = async (req: Request, res: Response) => {
+    try {
+        const currentUser = await User.findById(req.params.id)
+        if(!currentUser) return res.status(404).json('User not found')
+        const friendList = await Promise.all(
+            currentUser.followings.map((userId) => {
+                return User.findById(userId)
+            })
+        )
+        res.status(200).json(friendList)
+    } catch(err) {
+        return res.status(500).json(err)
+    }
+}
+

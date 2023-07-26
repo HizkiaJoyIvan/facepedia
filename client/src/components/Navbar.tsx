@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
             <div className="flex">
               <a href="/" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Home</a>
               <Link to={`/profile/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Profile</Link>
-              <a href="/friends" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Friends</a>
+              <Link to={`/friends/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Friends</Link>
               <button 
                 className='text-white bg-blue-700 hover:bg-blue-300 px-3 py-2 rounded-md'
                 onClick={()=>setUserId('')}>Logout</button>
