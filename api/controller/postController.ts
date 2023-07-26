@@ -56,8 +56,8 @@ export const getTimelinePosts = async (req: Request, res: Response) => {
                 return Post.find({userId: friendId})
             })
         )
-        
-        res.status(200).json(friendPosts.flat())
+
+        res.status(200).json(userPosts.concat(friendPosts.flat()))
     } catch(err) {
         return res.status(500).json(err)
     }

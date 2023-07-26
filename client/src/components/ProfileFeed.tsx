@@ -12,6 +12,7 @@ export interface postData {
     desc: string
     image: string
     likes: string[]
+    createdAt: Date
 }
 
 export interface ProfileID {
@@ -49,6 +50,7 @@ const ProfileFeed: React.FC<ProfileID> = ({id}) => {
           desc={p.desc}
           image={p.image}
           likes={p.likes}
+          createdAt={p.createdAt}
         />
       ))}
     </div>

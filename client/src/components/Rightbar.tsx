@@ -9,9 +9,10 @@ const Rightbar: React.FC = () => {
                 <p className='text-gray-700 font-bold'>Events</p>
                 <p className="text-blue-500 text-sm">See All</p>
             </div>
+            <div className="">Your friend just uploaded a new post</div>
         </div>
         <div className="p-3 bg-white shadow-md rounded-md hover:scale-110">
-            <div className="flex">
+            <div className="flex justify-between">
                 <p className='text-gray-700 font-bold'>Conversation</p>
                 <p className="text-blue-500 text-sm">See All</p>
             </div>

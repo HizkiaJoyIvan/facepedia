@@ -36,7 +36,18 @@ const storage = multer.diskStorage({
     }
   })
   
-const upload = multer({ storage: storage })
+const upload = multer({ 
+  storage: storage,
+  fileFilter: function (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) {
+    var ext = path.extname(file.originalname)
+
+    if(ext !== '.jpg' && ext !== '.png' && ext !== '.mp4' && ext !== '.mkv'){
+      return cb(new Error('Only videos or images are allowed!'))
+    }
+
+    cb(null, true)
+  }
+ })
 
 app.post('/api/upload', upload.single('file'), (req,res) => {
     const file: Express.Multer.File | undefined = req.file

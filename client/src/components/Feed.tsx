@@ -3,6 +3,7 @@ import Post from './Post'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import Share from './Share'
+import {format} from 'timeago.js'
 
 interface postData {
   _id: string
@@ -11,6 +12,7 @@ interface postData {
   desc: string
   image: string
   likes: string[]
+  createdAt: Date
 }
 
 const Feed: React.FC = () => {
@@ -39,6 +41,7 @@ const Feed: React.FC = () => {
           desc={p.desc}
           image={p.image}
           likes={p.likes}
+          createdAt = {p.createdAt}
         />
       ))}
     </div>

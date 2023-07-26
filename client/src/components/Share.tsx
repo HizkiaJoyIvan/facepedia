@@ -52,6 +52,7 @@ const Share: React.FC = () => {
 
     try {
       await axios.post('http://localhost:3200/api/post', newPost)
+      window.location.reload()
     } catch(err){
       console.log(err)
     }
@@ -68,9 +69,12 @@ const Share: React.FC = () => {
         className="w-full mb-4 px-4 py-2 rounded-lg border focus:outline-none focus:ring focus:border-blue-500"
         placeholder="What's on your mind?"
         ref={desc}/>
+       {file && (
+        <div className="bg-yellow-500 text-black p-2 rounded-md">{file.name}</div>
+       )} 
       <form action="" className='flex justify-between items-center' onSubmit={handleSubmit}>
         <label className="block bg-blue-500 text-white rounded-lg px-4 py-2 cursor-pointer hover:bg-blue-600">
-        Upload Image
+        Upload File
         <input type="file" className="hidden" onChange={(e) => setFile(e.target.files?.[0])}/>
         </label>
         <button
