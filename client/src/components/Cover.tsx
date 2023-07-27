@@ -9,6 +9,7 @@ const Cover: React.FC<ProfileID> = ({id}) => {
 
   const [userdata, setUserdata] = useState<userData>()
   const {userId} = useContext(AuthContext)
+  const publicFolder = "http://localhost:3200/api/images/"
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -55,7 +56,7 @@ const Cover: React.FC<ProfileID> = ({id}) => {
                 <div className="flex absolute bottom-8 left-10 items-center">
                     <img
                         className="h-40 w-40 object-cover rounded-full border-4 border-white"
-                        src="https://upload.wikimedia.org/wikipedia/en/0/03/Walter_White_S5B.png"
+                        src={publicFolder + userdata?.profilePicture}
                         alt="Top Image"
                         style={{ zIndex: 1 }}
                     />

@@ -4,6 +4,7 @@ import {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import {format} from 'timeago.js'
 import { Link } from 'react-router-dom'
+import { userData } from './Leftbar'
 
 interface postProps {
     userId: string
@@ -16,13 +17,13 @@ interface postProps {
 const Post: React.FC<postProps> = ({userId, desc, image, likes, createdAt}) => {
 
     const publicFolder = "http://localhost:3200/api/images/"
-    const [username, setUsername] = useState<string>('')
+    const [postUserdata, setPostUserdata] = useState<userData>()
 
     useEffect(()=> {
       const fetchData = async () => {
         try {
           const res = await axios.get(`http://localhost:3200/api/user/${userId}`)
-          setUsername(res.data.username)
+          setPostUserdata(res.data)
         } catch(err) {
           console.log(err)
         }
@@ -44,9 +45,13 @@ const Post: React.FC<postProps> = ({userId, desc, image, likes, createdAt}) => {
     return (
       <div className="bg-white p-4 shadow-md rounded-lg my-5">
         <div className="flex items-center mb-4">
-          <div className="bg-blue-500 rounded-full w-9 h-9 mr-2"></div>
+          <img
+              className="h-9 w-9 object-cover rounded-full  mr-2"
+              src={publicFolder + postUserdata?.profilePicture}
+              alt="user photo profile"
+          />
           <div className="">
-            <Link to={`/profile/${userId}`}>{username}</Link>
+            <Link to={`/profile/${userId}`}>{postUserdata?.username}</Link>
             <div className="text-gray-400 font-md">{format(createdAt?.toLocaleString())}</div>
           </div>
         </div>

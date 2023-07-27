@@ -18,6 +18,7 @@ const Friends: React.FC = () => {
   const {userId} = useContext(AuthContext)
   const [friendlist, setFriendlist] = useState<FriendData[]>()
   const {id} = useParams<string>()
+  const publicFolder = "http://localhost:3200/api/images/"
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +43,11 @@ const Friends: React.FC = () => {
                   <p className="font-bold text-gray-600 text-xl mb-5">Your Friends</p>
                   {friendlist?.map((friend) => (
                     <div className="flex justify-between items-center bg-gray-100 p-4 rounded-md">
+                      <img
+                        className="h-9 w-9 object-cover rounded-full  mr-2"
+                        src={publicFolder + friend?.profilePicture}
+                        alt="user photo profile"
+                      />
                       <Link to={`/profile/${friend._id}`} className='text-gray-700 font-bold'>{friend.username}</Link>
                     </div>
                   ))}

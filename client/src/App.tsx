@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import { AuthContext } from './context/AuthContext'
 import Profile from './pages/Profile'
 import Friends from './pages/Friends'
+import Settings from './pages/Settings'
 
 const App:React.FC = () => {
 
@@ -20,6 +21,7 @@ const App:React.FC = () => {
         <Route path='/login' element={userId ? <Navigate to={'/'}/> : <Login />} />
         <Route path='/profile/:id' element={userId ? <Profile /> : <Login />}/>
         <Route path='/friends/:id' element={<Friends />}/>
+        <Route path='/settings/:id' element={<Settings />}/>
       </Routes>
     </BrowserRouter>
   );
