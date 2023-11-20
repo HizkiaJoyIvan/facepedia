@@ -6,8 +6,12 @@ export const getPost = async (req: Request, res: Response) => {
     try {
         const postId = req.params.id
         const post = await Post.findById(postId)
-        if(!post) return res.status(404).json('Data not found')
-        return res.status(200).json(post)
+        if(!post) return res.status(404).json({
+            message: "Post not found"
+        })
+        return res.status(200).json({
+            data: post
+        })
     } catch(err) {
         return res.status(500).json(err)
     }
@@ -19,7 +23,9 @@ export const updatePost = async (req: Request, res: Response) => {
         await Post.findByIdAndUpdate(postId, {
             $set: req.body
         })
-        return res.status(200).json('Post has been updated')
+        return res.status(200).json({
+            message: "Post has been updated"
+        })
     } catch(err) {
         return res.status(500).json(err)
     }
@@ -29,7 +35,9 @@ export const deletePost = async (req: Request, res: Response) => {
     try {
         const postId = req.params.id
         await Post.findByIdAndDelete(postId)
-        return res.status(200).json('Post has been deleted')
+        return res.status(200).json({
+            message: "Post has been deleted"
+        })
     } catch(err) {
         return res.status(500).json(err)
     }
@@ -38,9 +46,14 @@ export const deletePost = async (req: Request, res: Response) => {
 export const getAllPosts = async (req: Request, res: Response) => {
     try {
         const currentUser = await User.findById(req.params.userId)
-        if(!currentUser) return res.status(404).json('User not found')
+        if(!currentUser) return res.status(404).json({
+            message: "Cannot retrieve the data because the user is not found"
+        })
+
         const userPosts = await Post.find({userId: currentUser._id})
-        return res.status(200).json(userPosts)
+        return res.status(200).json({
+            data: userPosts
+        })
     } catch(err){
         return res.status(500).json(err)
     }
@@ -49,7 +62,10 @@ export const getAllPosts = async (req: Request, res: Response) => {
 export const getTimelinePosts = async (req: Request, res: Response) => {
     try {
         const currentUser = await User.findById(req.params.userId)
-        if(!currentUser) return res.status(404).json('User not found')
+        if(!currentUser) return res.status(404).json({
+            message: "Cannot retrieve the data because the user was not found"
+        })
+
         const userPosts = await Post.find({userId: currentUser._id})
         const friendPosts = await Promise.all(
             currentUser.followings.map((friendId) => {
@@ -57,7 +73,10 @@ export const getTimelinePosts = async (req: Request, res: Response) => {
             })
         )
 
-        res.status(200).json(userPosts.concat(friendPosts.flat()))
+        return res.status(200).json({
+            data: userPosts.concat(friendPosts.flat())
+        })
+
     } catch(err) {
         return res.status(500).json(err)
     }
@@ -67,7 +86,10 @@ export const createPost = async (req: Request, res: Response) => {
     try {
         const post = new Post(req.body)
         await post.save()
-        return res.status(200).json('New post has been created')
+        
+        return res.status(200).json({
+            message: "New post has been created"
+        })
     } catch(err) {
         return res.status(500).json(err)
     }

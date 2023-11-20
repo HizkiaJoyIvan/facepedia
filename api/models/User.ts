@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 interface IUser {
     username: string
     email: string
-    pwd: string
+    password: string
     isAdmin: boolean
     profilePicture: string
     coverPicture: string
@@ -21,10 +21,9 @@ const userSchema = new mongoose.Schema<IUser>({
       max: 20,
       unique: true,
     },
-    pwd: {
+    password: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,

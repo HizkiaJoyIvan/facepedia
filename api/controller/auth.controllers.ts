@@ -5,17 +5,19 @@ import jwt from 'jsonwebtoken'
 import {Request, Response} from "express"
 
 export const register = async (req: Request, res: Response) => {
-    const {username, email, pwd} = req.body
+    const {username, email, password} = req.body
     try {
         const salt = bcrypt.genSaltSync(10)
-        const hashedPwd = bcrypt.hashSync(pwd, salt)
+        const hashedPwd = bcrypt.hashSync(password, salt)
         const newUser = new User({
             username: username,
             email: email,
-            pwd: hashedPwd
+            password: hashedPwd
         })
         await newUser.save()
-        return res.status(200).json(newUser)
+        return res.status(200).json({
+            data: newUser
+        })
     } catch(err){
         return res.status(500).json(err)
     }
@@ -24,14 +26,21 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({email: req.body.email})
-        if(!user) return res.status(404).send("User not found")
+        if(!user) return res.status(404).json({
+            message: "User not found"
+        })
 
-        const isPwdCorrect = await bcrypt.compareSync(req.body.pwd, user.pwd)
-        if(!isPwdCorrect) return res.status(400).send('Wrong password')
+        const isPwdCorrect = await bcrypt.compareSync(req.body.password, user.password)
+        if(!isPwdCorrect) return res.status(400).json({
+            message: "Wrong Password"
+        })
         
-        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '1h'})
+        const accessToken = jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY as string, {expiresIn: '12h'})
         
-        return res.status(200).json({user, accessToken})   
+        return res.status(200).json({
+            data: user,
+            token: accessToken
+        })   
     } catch(err) {
         return res.status(500).json(err)
     }

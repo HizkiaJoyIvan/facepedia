@@ -5,7 +5,9 @@ export const getUser = async (req: Request, res: Response) => {
     const userId = req.params.id
     try {
         const user = await User.findById(userId)
-        if(!user) res.status(404).json('User not found')
+        if(!user) res.status(404).json({
+            message: "User not found"
+        })
         return res.status(200).json(user)
     } catch(err) {
         return res.status(500).json(err)
@@ -18,10 +20,14 @@ export const deleteUser = async (req: Request, res: Response) => {
     try {
         if(otherUserId === userId){
             const user = await User.findByIdAndDelete(userId)    
-            return res.status(200).json(`User with id ${userId} has been deleted`)
+            return res.status(200).json({
+                message: `User with id ${userId} has been deleted`
+            })
         } 
         else {
-            return res.status(400).json('You can only delete your account')
+            return res.status(400).json({
+                message: "You can only delete your account"
+            })
         }
     } catch(err) {
         return res.status(500).json(err)
@@ -34,18 +40,23 @@ export const updateUser = async (req: Request, res: Response) => {
         await User.findByIdAndUpdate(userId, {
             $set: req.body
         })
-        return res.status(200).json('Your data has been updated')
+        return res.status(200).json({
+            message: "Post has been deleted"
+        })
     } catch(err) {
         return res.status(500).json(err)
     }
 }
 
-export const postUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
     try {
         if(!req.body.username || !req.body.pwd || !req.body.email) return res.status(400).json('Not enough field')
         const newUser = new User(req.body)
         await newUser.save()
-        return res.status(200).json('New user has been created')
+
+        return res.status(200).json({
+            message: "User has been deleted"
+        })
     } catch(err) {
         return res.status(500).json(err)
     }
@@ -60,19 +71,28 @@ export const followUser = async (req: Request, res: Response) => {
                 if(!user.followers.includes(req.body.userId)){
                     await user.updateOne({$push: {followers: req.body.userId}})
                     await currentUser.updateOne({$push: {followings: req.params.id}})
-                    res.status(200).json('User has been followed')
+
+                    return res.status(200).json({
+                        message: "The user has followed other"
+                    })
                 } else {
-                    res.status(403).json('You have already followed this user')
+                    return res.status(403).json({
+                        message: "The user not found"
+                    })
                 }
             }
             else {
-                res.status(404).json('User not found')
+                return res.status(404).json({
+                    message: "The user can't follow their own account"
+                })
             }
         } catch(err) {
-            res.status(500).json(err)
+            return res.status(500).json(err)
         }
     } else {
-        return res.status(403).json('You cant follow your own account')
+        return res.status(403).json({
+            message: "Error"
+        })
     }
 }
 
@@ -85,12 +105,18 @@ export const unfollowUser = async (req:Request, res:Response) => {
                 if(user.followers.includes(req.body.userId)){
                     await user.updateOne({$pull: {followers: req.body.userId}})
                     await currentUser.updateOne({$pull: {followings: req.params.id}})
-                    return res.status(200).json('You have just unfollowed this account')
+                    return res.status(200).json({
+                        message: "The user has been unfollowed"
+                    })
                 } else {
-                    res.status(403).json('You have already unfollowed this account')
+                    return res.status(403).json({
+                        message: "The user can't unfollow their own account"
+                    })
                 }
             } else {
-                res.status(404).json('User not found')
+                return res.status(404).json({
+                    message: "User not found"
+                })
             }
         } catch(err) {
             return res.status(500).json(err)
@@ -104,13 +130,17 @@ export const unfollowUser = async (req:Request, res:Response) => {
 export const getFriends = async (req: Request, res: Response) => {
     try {
         const currentUser = await User.findById(req.params.id)
-        if(!currentUser) return res.status(404).json('User not found')
+        if(!currentUser) return res.status(404).json({
+            message: "User not found"
+        })
         const friendList = await Promise.all(
             currentUser.followings.map((userId) => {
                 return User.findById(userId)
             })
         )
-        res.status(200).json(friendList)
+        return res.status(200).json({
+            data: friendList
+        })
     } catch(err) {
         return res.status(500).json(err)
     }

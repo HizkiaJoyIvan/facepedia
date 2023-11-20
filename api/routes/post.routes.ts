@@ -1,6 +1,9 @@
 import express, {Router} from 'express'
 import {deletePost, updatePost, getPost, getAllPosts, createPost, getTimelinePosts} from '../controller/post.controllers'
+import { verifyToken } from '../middleware/auth.middleware'
 const router: Router = express.Router()
+
+router.use(verifyToken)
 
 router.get('/:id', getPost)
 

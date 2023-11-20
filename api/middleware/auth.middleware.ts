@@ -9,6 +9,6 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
             next()
         })
     } else {
-        return res.status(401).json('You are not authenticated')
+        return res.status(401).json('You are not authorized')
     }
 }
