@@ -1,5 +1,5 @@
 import express, {Router} from 'express'
-import {deletePost, updatePost, getPost, getAllPosts, createPost, getTimelinePosts} from '../controller/postController'
+import {deletePost, updatePost, getPost, getAllPosts, createPost, getTimelinePosts} from '../controller/post.controllers'
 const router: Router = express.Router()
 
 router.get('/:id', getPost)

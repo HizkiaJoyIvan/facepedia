@@ -1,5 +1,5 @@
 import express, {Router} from 'express'
-import { deleteUser, getUser, updateUser, postUser, followUser, unfollowUser, getFriends } from '../controller/userController'
+import { deleteUser, getUser, updateUser, postUser, followUser, unfollowUser, getFriends } from '../controller/user.controllers'
 const router: Router = express.Router()
 
 router.get('/:id', getUser)
