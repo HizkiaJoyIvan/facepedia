@@ -19,7 +19,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     const userId = req.params.id
     try {
         if(otherUserId === userId){
-            const user = await User.findByIdAndDelete(userId)    
+            await User.findByIdAndDelete(userId)    
             return res.status(200).json({
                 message: `User with id ${userId} has been deleted`
             })
@@ -123,7 +123,9 @@ export const unfollowUser = async (req:Request, res:Response) => {
         }
     }
     else {
-        return res.status(403).json('You cant unfollow your own account')
+        return res.status(403).json({
+            message: 'You cant unfollow your own account'
+        })
     }
 }
 
