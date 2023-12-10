@@ -2,7 +2,7 @@ import React from 'react'
 
 const Rightbar: React.FC = () => {
   return (
-    <div className='bg-white flex-shrink-0 p-5'>
+    <div className='w-[20%] bg-white p-5'>
       <div className="flex flex-col gap-2">
         <div className="p-3 bg-white shadow-md rounded-md hover:scale-110">
             <div className="flex justify-between items-center">

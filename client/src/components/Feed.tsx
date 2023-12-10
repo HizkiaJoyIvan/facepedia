@@ -17,23 +17,23 @@ interface postData {
 
 const Feed: React.FC = () => {
 
-  const {userId} = useContext(AuthContext)
+  const {userInfo} = useContext(AuthContext)
   const [posts, setPosts] = useState<postData[]>([])
 
-  useEffect(()=> {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3200/api/post/timeline/${userId}`)
-        setPosts(res.data)
-      } catch(err){
-        console.log(err)
-      }
-    }
-    fetchData()
-  }, [])
+  // useEffect(()=> {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get(`http://localhost:3200/api/post/timeline/${userId}`)
+  //       setPosts(res.data)
+  //     } catch(err){
+  //       console.log(err)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [])
 
   return (
-    <div className='bg-gray-50 min-h-screen w-full flex-1 px-5 py-8'>
+    <div className='w-[60%] bg-gray-50 min-h-screen px-5 py-8'>
       <Share />
       {posts.map((p) => (
         <Post 

@@ -5,30 +5,50 @@ import { AuthContext } from '../context/AuthContext'
 
 const Navbar: React.FC = () => {
 
-  const {userId, setUserId} = useContext(AuthContext)
+  const {logoutUser} = useContext(AuthContext)
 
   return (
-    <nav className='bg-blue-500'>
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="h-8 w-8 text-white font-bold text-xl">Facepedia</h1>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <div className="flex">
-              <a href="/" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Home</a>
-              <Link to={`/profile/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Profile</Link>
-              <Link to={`/friends/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Friends</Link>
-              <button 
-                className='text-white bg-blue-700 hover:bg-blue-300 px-3 py-2 rounded-md'
-                onClick={()=>setUserId('')}>Logout</button>
-            </div>
-          </div>
+    <div className="h-16 bg-blue-600 flex items-center px-5">
+        <div className="w-[10%]">
+          <h1 className='text-white font-semibold text-2xl'>facepedia</h1>
         </div>
-      </div>
-    </nav>
+        <div className="flex-3">
+
+        </div>
+        <div className="w-[70%] flex gap-8 justify-center">
+          <Link to={"/profile"} className='text-white font-medium text-md transform transition-transform hover:-translate-y-0.5'>Home</Link>
+          <Link to={"/profile"} className='text-white font-medium text-md transform transition-transform hover:-translate-y-0.5'>Profile</Link>
+          <Link to={"/profile"} className='text-white font-medium text-md transform transition-transform hover:-translate-y-0.5'>Friends</Link>
+        </div>
+        <div className="w-[20%] flex justify-end">
+          <button 
+            className='text-blue-600 bg-white hover:bg-gray-300 px-3 py-2 rounded-md font-semibold text-md transform transition-transform hover:-translate-y-1'
+            onClick={logoutUser}>
+              Logout
+          </button>
+        </div>
+    </div>
+    // <nav className='bg-blue-500'>
+    //   <div className="max-w-7xl mx-auto px-4">
+    //     <div className="flex items-center justify-between h-16">
+    //       <div className="flex items-center">
+    //         <div className="flex-shrink-0">
+    //           <h1 className="h-8 w-8 text-white font-bold text-xl">Facepedia</h1>
+    //         </div>
+    //       </div>
+    //       <div className="hidden md:block">
+    //         <div className="flex">
+    //           <a href="/" className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Home</a>
+    //           <Link to={`/profile/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Profile</Link>
+    //           <Link to={`/friends/${userId}`} className='text-white hover:bg-blue-300 px-3 py-2 rounded-md'>Friends</Link>
+    //           <button 
+    //             className='text-white bg-blue-700 hover:bg-blue-300 px-3 py-2 rounded-md'
+    //             onClick={()=>setUserId('')}>Logout</button>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </nav>
   )
 }
 

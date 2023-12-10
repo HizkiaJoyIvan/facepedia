@@ -11,20 +11,21 @@ import Settings from './pages/Settings'
 
 const App:React.FC = () => {
 
-  const {userId} = useContext(AuthContext)
+  const {userInfo} = useContext(AuthContext)
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={userId ? <Home /> : <Login />}/> 
+        {/* <Route path='/' element={userInfo?.isLoggedIn ? <Home /> : <Login />}/>  */}
+        <Route path='/' element={<Home />}/> 
         <Route path='/register' element={<Register />}/>
-        <Route path='/login' element={userId ? <Navigate to={'/'}/> : <Login />} />
-        <Route path='/profile/:id' element={userId ? <Profile /> : <Login />}/>
+        <Route path='/login' element={userInfo?.isLoggedIn ? <Navigate to={'/'}/> : <Login />} />
+        <Route path='/profile/:id' element={userInfo?.isLoggedIn ? <Profile /> : <Login />}/>
         <Route path='/friends/:id' element={<Friends />}/>
         <Route path='/settings/:id' element={<Settings />}/>
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
 export default App;
