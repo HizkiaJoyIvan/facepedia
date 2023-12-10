@@ -1,73 +1,82 @@
-  import React, {useState, useEffect, useContext} from 'react'
-  import { Link, useNavigate } from 'react-router-dom'
-  import axios from 'axios'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
+import useNotifications from '../utils/helper/useNotifications'
 
-  const Login: React.FC = () => {
+const Login: React.FC = () => {
+  const { loginUser } = useContext(AuthContext)
+  const navigate = useNavigate()
 
-    const {setUserId} = useContext(AuthContext)
-    const [email, setEmail] = useState<string>('')
-    const [pwd, setPwd] = useState<string>('')
-    const navigate = useNavigate()
-    
-    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      const userData = {
-        email, pwd
-      }
-      try {
-        const res = await axios.post('http://localhost:3200/api/auth/login', userData)
-        setUserId(res.data.user._id)
-        navigate('/')
-      } catch(err){
-        console.log(err)
-      }
+  const [formData, setFormData] = useState({
+      email: "",
+      password: "",
+  })
 
-    }
+  const { onError, onSuccess } = useNotifications()
 
-
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <div className="bg-white shadow-lg rounded-lg px-8 py-6 max-w-2xl w-full">
-          <h2 className="text-2xl font-bold mb-6">Login</h2>
-          <form onSubmit={handleLogin}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                onChange={(e)=>setEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                onChange={(e)=>setPwd(e.target.value)}
-              />
-            </div>
-            <div className="flex justify-between">
-              <Link to={'/register'} className='font-bold text-gray-500 cursor-pointer'>Don't have an account</Link>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
-              >
-                Sign In
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    )
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target
+      setFormData({
+          ...formData,
+          [name]: value,
+      })
   }
 
-  export default Login
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+        const response = await loginUser(formData)
+        if (response) {
+            onSuccess("Login berhasil")
+            navigate("/")
+        } else {
+            onError("Login tidak berhasil, email atau password yang anda masukkan tidak sesuai")
+        }
+    } catch (err) {
+        onError(err as string)
+    }
+  }
+
+
+  return (
+    <div className="bg-gray-100 h-screen flex">        
+      <div className="bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 w-[50%] rounded-r-3xl relative">
+        <label className="absolute text-white font-extrabold text-[2.5rem] top-20 left-4 block">Welcome to <br /> Facepedia</label>
+      </div>
+      <div className="bg-gray-100 w-[50%] flex justify-center items-center">
+        <form 
+          className="flex flex-col items-center gap-5 bg-white shadow-md py-20 px-20 rounded-lg"
+          onSubmit={handleLogin}
+        >
+          <label htmlFor="" className="text-blue-600 font-bold text-2xl">LOGIN</label>
+          <div className="flex flex-col gap-5">
+            <input 
+              type="text" 
+              placeholder="Email" 
+              className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <label htmlFor="" className="text-sm text-gray-500">
+            <Link to={'/register'}>
+              Don't have an account? Register now
+            </Link>
+          </label>
+          <button type='submit' className="text-white bg-blue-600 rounded-md hover:bg-blue-500 font-semibold py-2 px-5 w-[100%] transform transition-transform hover:-translate-y-1">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+export default Login

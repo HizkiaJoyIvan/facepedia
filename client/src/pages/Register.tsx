@@ -1,54 +1,86 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
+import useNotifications from '../utils/helper/useNotifications'
 
 const Register: React.FC = () => {
+  const { registerUser } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  const [formData, setFormData] = useState({
+      username: "",
+      email: "",
+      password: "",
+  })
+
+  const { onError, onSuccess } = useNotifications()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target
+      setFormData({
+          ...formData,
+          [name]: value,
+      })
+  }
+
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+        const response = await registerUser(formData)
+        if (response) {
+            onSuccess("Registrasi berhasil")
+            navigate("/login")
+        } else {
+            onError("Registrasi tidak berhasil, email mungkin sudah terdaftar")
+        }
+    } catch (err) {
+        onError(err as string)
+    }
+  }
+
+
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
-      <div className="bg-white shadow-lg rounded-lg px-8 py-6 max-w-2xl w-full">
-        <h2 className="text-2xl font-bold mb-6">Sign Up</h2>
-        <form>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-              Username
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-              id="username"
-              type="text"
-              placeholder="Enter your username"
+    <div className="bg-gray-100 h-screen flex">        
+      <div className="bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 w-[50%] rounded-r-3xl relative">
+        <label className="absolute text-white font-extrabold text-[2.5rem] top-20 left-4 block">Welcome to <br /> Facepedia</label>
+      </div>
+      <div className="bg-gray-100 w-[50%] flex justify-center items-center">
+        <form 
+          className="flex flex-col items-center gap-5 bg-white shadow-md py-20 px-20 rounded-lg"
+          onSubmit={handleRegister}
+        >
+          <label htmlFor="" className="text-blue-600 font-bold text-2xl">SIGN UP</label>
+          <div className="flex flex-col gap-5">
+            <input 
+              type="text" 
+              placeholder="Username" 
+              className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
+              value={formData.username}
+              onChange={handleChange}
+            />
+            <input 
+              type="text" 
+              placeholder="Email" 
+              className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
+              value={formData.password}
+              onChange={handleChange}
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              Password
-            </label>
-            <input
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-            />
-          </div>
-          <div className="flex justify-between">
-            <Link to={'/login'} className='font-bold text-gray-500 cursor-pointer'>Already have an account</Link>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Sign Up
-            </button>
-          </div>
+          <label htmlFor="" className="text-sm text-gray-500">
+            <Link to={'/login'}>
+              Already have an account? Login now
+            </Link>
+          </label>
+          <button type='submit' className="text-white bg-blue-600 rounded-md hover:bg-blue-500 font-semibold py-2 px-5 w-[100%] transform transition-transform hover:-translate-y-1">
+            Register
+          </button>
         </form>
       </div>
     </div>
