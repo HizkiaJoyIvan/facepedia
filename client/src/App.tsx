@@ -16,13 +16,12 @@ const App:React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element={userInfo?.isLoggedIn ? <Home /> : <Login />}/>  */}
-        <Route path='/' element={<Home />}/> 
+        <Route path='/' element={userInfo?.isLoggedIn ? <Home /> : <Login />}/> 
         <Route path='/register' element={<Register />}/>
         <Route path='/login' element={userInfo?.isLoggedIn ? <Navigate to={'/'}/> : <Login />} />
         <Route path='/profile/:id' element={userInfo?.isLoggedIn ? <Profile /> : <Login />}/>
         <Route path='/friends/:id' element={<Friends />}/>
-        <Route path='/settings/:id' element={<Settings />}/>
+        <Route path='/settings' element={<Settings />}/>
       </Routes>
     </BrowserRouter>
   )

@@ -1,9 +1,11 @@
 import useAxios from "../helper/useAxios"
 import { GeneralAPIMutateResponse, PostData } from "../types"
 
-const useCreatePost = async (userID: string, payload: PostData): Promise<GeneralAPIMutateResponse> => {
-  const { status } = await useAxios(`/post/${userID}`, 'POST', payload)
-  return status
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const useCreatePost = async (payload: PostData): Promise<GeneralAPIMutateResponse> => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const res = await useAxios(`/post`, 'POST', payload)
+  return res
 }
 
 export default useCreatePost

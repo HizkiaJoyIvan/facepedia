@@ -6,7 +6,7 @@ import ProfileFeed from '../components/ProfileFeed'
 
 const Profile: React.FC = () => {
 
-  const {id} = useParams<string>()
+  const { id } = useParams<string>()
 
   return (
     <>

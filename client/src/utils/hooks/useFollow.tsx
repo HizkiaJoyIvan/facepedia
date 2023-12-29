@@ -2,7 +2,10 @@ import useAxios from "../helper/useAxios"
 import { GeneralAPIMutateResponse } from "../types"
 
 const useFollow = async (userID: string, id: string): Promise<GeneralAPIMutateResponse> => {
-  const { status } = await useAxios(`/post/${id}/follow`, 'PUT', userID)
+  const data = {
+    userId: userID
+  }
+  const { status } = await useAxios(`/user/${id}/follow`, 'PUT', data)
   return status
 }
 

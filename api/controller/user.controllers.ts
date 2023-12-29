@@ -8,7 +8,9 @@ export const getUser = async (req: Request, res: Response) => {
         if(!user) res.status(404).json({
             message: "User not found"
         })
-        return res.status(200).json(user)
+        return res.status(200).json({
+            data: user
+        })
     } catch(err) {
         return res.status(500).json(err)
     }
@@ -50,7 +52,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
     try {
-        if(!req.body.username || !req.body.pwd || !req.body.email) return res.status(400).json('Not enough field')
+        if(!req.body.username || !req.body.password || !req.body.email) return res.status(400).json('Not enough field')
         const newUser = new User(req.body)
         await newUser.save()
 

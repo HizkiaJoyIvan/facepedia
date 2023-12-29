@@ -1,19 +1,21 @@
 import React, {useState, useContext, useEffect} from 'react'
-import Leftbar, { userData } from '../components/Leftbar'
+import Leftbar from '../components/Leftbar'
 import Navbar from '../components/Navbar'
 import { AuthContext } from '../context/AuthContext'
 import axios from 'axios'
+import { UserDetailData } from '../utils/types'
 
 const Settings: React.FC = () => {
 
-    const {userId} = useContext(AuthContext)
-    const [userdata, setUserdata] = useState<userData>()
+    const {userInfo} = useContext(AuthContext)
+    const userID = userInfo?.userInfo.id
+    const [userdata, setUserdata] = useState<UserDetailData>()
     const publicFolder = "http://localhost:3200/api/images/"
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`http://localhost:3200/api/user/${userId}`)
+                const res = await axios.get(`http://localhost:3200/api/user/${userID}`)
                 setUserdata(res.data)
             } catch(err){
                 console.log(err)
@@ -39,7 +41,7 @@ const Settings: React.FC = () => {
             console.log('No file selected')
         }
         try {
-            await axios.put(`http://localhost:3200/api/user/${userId}`, {
+            await axios.put(`http://localhost:3200/api/user/${userID}`, {
                 profilePicture: profilePictureFile?.name
             })
             window.location.reload()
@@ -67,12 +69,12 @@ const Settings: React.FC = () => {
                         ) : (
                             <img
                             className="h-24 w-24 object-cover rounded-full border-4 border-white mb-3"
-                            src={publicFolder + userdata?.profilePicture}
+                            src={publicFolder + "Founder.jpg"}
                             alt="user photo profile"
                         />
                         )}
                         <label 
-                            className='text-xs text-white p-1 rounded-sm bg-blue-500 cursor-pointer absolute bottom-0'
+                            className='text-xs text-white p-1 rounded-md bg-blue-500 cursor-pointer absolute bottom-0 font-semibold'
                             style={{ zIndex: 1 }}>
                                 Edit your photo profile
                             <input type="file" className='hidden' onChange={(e) => setProfilePictureFile(e.target.files?.[0])}/>
@@ -81,29 +83,31 @@ const Settings: React.FC = () => {
                             <div className="bg-green-500 text-white p-2 rounded-md text-xs mt-5">{profilePictureFile.name}</div>
                         )}
                     </div>
-                    <div className="mb-4 flex items-center gap-2">
-                        <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="email">
-                            Username
-                        </label>
-                        <input
-                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                            id="email"
-                            type="email"
-                            placeholder={userdata?.username}
-                            onChange={(e)=>setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-4 flex items-center gap-2">
-                        <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="email">
-                            Email
-                        </label>
-                        <input
-                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
-                            id="email"
-                            type="email"
-                            placeholder={userdata?.email}
-                            onChange={(e)=>setEmail(e.target.value)}
-                        />
+                    <div className="flex flex-col gap-3 justify-between w-[100%]">
+                        <div className="mb-4 flex items-center gap-2 w-[100%] justify-between">
+                            <label className="block text-slate-700 text-md font-bold mb-2" htmlFor="email">
+                                Username
+                            </label>
+                            <input
+                                className="appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:border-blue-500 shadow-md font-semibold max-w-[85%]"
+                                id="text"
+                                type="text"
+                                placeholder={userdata?.username}
+                                onChange={(e)=>setUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="mb-4 flex items-center gap-2 w-[100%] justify-between">
+                            <label className="block text-slate-700 text-md font-bold mb-2" htmlFor="email">
+                                Email
+                            </label>
+                            <input
+                                className="appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:border-blue-500 shadow-md font-semibold max-w-[85%]"
+                                id="email"
+                                type="email"
+                                placeholder={userdata?.email}
+                                onChange={(e)=>setEmail(e.target.value)}
+                            />
+                        </div>
                     </div>
                     <div className="flex justify-between">
                         <button

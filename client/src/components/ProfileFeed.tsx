@@ -4,16 +4,7 @@ import Post from './Post'
 import { AuthContext } from '../context/AuthContext'
 import axios from 'axios'
 import Cover from './Cover'
-
-export interface postData {
-    _id: string
-    userId: string
-    title: string
-    desc: string
-    image: string
-    likes: string[]
-    createdAt: Date
-}
+import { PostData } from '../utils/types'
 
 export interface ProfileID {
   id: string
@@ -21,8 +12,8 @@ export interface ProfileID {
 
 const ProfileFeed: React.FC<ProfileID> = ({id}) => {
 
-    const {userId} = useContext(AuthContext)
-    const [posts, setPosts] = useState<postData[]>([])
+    const { userInfo } = useContext(AuthContext)
+    const [posts, setPosts] = useState<PostData[]>([])
 
     useEffect(()=> {
         const fetchData = async () => {
@@ -39,7 +30,7 @@ const ProfileFeed: React.FC<ProfileID> = ({id}) => {
   return (
     <div className='bg-gray-50 min-h-screen w-full flex-1 px-5 py-8'>
       <Cover id={id ?? ''}/>
-      {userId === id ? (
+      {userInfo?.userInfo.id === id ? (
         <Share />
       ) : (
         <div></div>

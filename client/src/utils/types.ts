@@ -2,15 +2,16 @@ export interface FriendData {
     _id: string
     username: string
     profilePicture: string
+    email: string
 }
 
 export interface PostData {
-    _id: string
+    _id?: string
     userId: string
     desc: string
-    image: string
-    likes: string[]
-    createdAt: Date
+    image?: string
+    likes?: string[]
+    createdAt?: Date
 }
 
 export interface UserDetailData {

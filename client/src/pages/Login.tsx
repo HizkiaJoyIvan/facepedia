@@ -53,6 +53,7 @@ const Login: React.FC = () => {
             <input 
               type="text" 
               placeholder="Email" 
+              name="email" 
               className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
               value={formData.email}
               onChange={handleChange}
@@ -60,6 +61,7 @@ const Login: React.FC = () => {
             <input 
               type="password" 
               placeholder="Password" 
+              name="password" 
               className="bg-gray-200 p-2 rounded-md w-64 outline-blue-100 hover:outline-blue-200" 
               value={formData.password}
               onChange={handleChange}

@@ -15,7 +15,12 @@ export const register = async (req: Request, res: Response) => {
         const newUser = new User({
             username: username,
             email: email,
-            password: hashedPwd
+            password: hashedPwd,
+            isAdmin: false,
+            profilePicture: '',
+            coverPicture: '',
+            followers: [],
+            followings: [],
         })
         await newUser.save()
         return res.status(200).json({

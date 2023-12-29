@@ -51,7 +51,7 @@ const upload = multer({
 
 app.post('/api/upload', upload.single('file'), (req,res) => {
     const file: Express.Multer.File | undefined = req.file
-    return res.status(200).json('File uploaded')
+    return res.status(200).json({ message: 'File uploaded' })
 })
 
 app.get('/', (req: Request,res: Response) => {

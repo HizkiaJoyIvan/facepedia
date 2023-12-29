@@ -40,25 +40,28 @@ export function AuthContextProvider ({ children }: { children: React.ReactNode }
     
     const loginUser = async (data: UserAuthData) => {
       try {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const response = await useAxios('/auth/login', 'POST', data, false)
   
-        if(response && response.data.token) {
-          const decodedToken = jwtDecode(response.data.token)
+        if(response && response.token) {
+          const decodedToken = jwtDecode(response.token)
           const tokenExpiration = new Date((decodedToken.exp ?? 0) * 1000)
           if(tokenExpiration > new Date()) {
-            Cookies.set('user_auth_token', response.data.token, {expires: tokenExpiration})
+            Cookies.set('user_auth_token', response.token, {expires: tokenExpiration})
             setUserInfo({isLoggedIn: true, userInfo: decodedToken})
           }
         }
   
         return response
       } catch(err) {
+        console.log("Error")
         return null
       }
     }
   
     const registerUser = async (data: UserAuthData) => {
       try {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         const response = await useAxios('/auth/register', 'POST', data, false)
         return response
       } catch(err) {

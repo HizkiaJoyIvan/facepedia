@@ -1,28 +1,15 @@
 import React, { useEffect, useState, useContext, useRef, RefObject } from 'react'
-import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
-import { userData } from './Leftbar'
-
+import UseNotifications from '../utils/helper/useNotifications'
+import useUpload from '../utils/hooks/useUpload'
+import useCreatePost from '../utils/hooks/useCreatePost'
 
 const Share: React.FC = () => {
 
-  const {userInfo} = useContext(AuthContext)
-  const [userdata, setUserdata] = useState<userData>()
-  
+  const {userInfo} = useContext(AuthContext)  
   const [file, setFile] = useState<File | null>()
+  const {onSuccess, onError} = UseNotifications()
   const desc: RefObject<HTMLInputElement> = useRef(null)
-
-  // useEffect(()=> {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get(`http://localhost:3200/api/user/${userId}`)
-  //       setUserdata(res.data)
-  //     } catch(err){
-  //       console.log(err)
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
 
   interface NewPost {
     userId: string
@@ -30,33 +17,37 @@ const Share: React.FC = () => {
     image?: string
   }
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const newPost: NewPost = {
-  //     userId,
-  //     desc: desc.current?.value!
-  //   }
-  //   if(file){
-  //     try {
-  //       const formData = new FormData()
-  //       formData.append('file', file)
-  //       const res = await axios.post('http://localhost:3200/api/upload', formData)
-  //       console.log(res)
-  //       newPost.image = file.name
-  //     } catch(err) {
-  //         console.log(err)
-  //     }
-  //   } else {
-  //     console.log('No file selected')
-  //   }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const newPost: NewPost = {
+      userId: userInfo?.userInfo?.id,
+      desc: desc.current?.value!
+    }
+    if(file){
+      try {
+        const formData = new FormData()
+        formData.append('file', file)
+        useUpload(formData)        
+        newPost.image = file.name
+      } catch(err) {
+          onError(err as string)
+      }
+    } else {
+      onError('No file selected')
+    }
 
-  //   try {
-  //     await axios.post('http://localhost:3200/api/post', newPost)
-  //     window.location.reload()
-  //   } catch(err){
-  //     console.log(err)
-  //   }
-  // }
+    try {
+      const res = await useCreatePost(newPost)
+      if(res) {
+        onSuccess("New post has been created")
+      }
+      else {
+        onError("Error while creating post")
+      }
+    } catch(err){
+      onError(err as string)
+    }
+  }
 
   return (
     <div className="bg-white p-4 shadow-md rounded-lg">
@@ -66,23 +57,33 @@ const Share: React.FC = () => {
       </div>
       <input 
         type="text" 
-        className="w-full mb-4 px-4 py-2 rounded-lg border focus:outline-none focus:ring focus:border-blue-500"
+        className="w-full mb-4 px-4 py-2 rounded-lg border focus:outline-none focus:ring focus:border-blue-500 font-semibold"
         placeholder="What's on your mind?"
         ref={desc}/>
-       {/* {file && (
-        <div className="bg-yellow-500 text-black p-2 rounded-md">{file.name}</div>
-       )}  */}
-      <form action="" className='flex justify-between items-center'>
-        <label className="block bg-blue-500 text-white font-semibold rounded-lg px-4 py-2 cursor-pointer hover:bg-blue-600 transform transition-transform hover:-translate-y-1">
+       {file && (
+        <div className="text-blue-700 py-1 rounded-md w-[20%] font-bold text-lg">{file.name}</div>
+       )} 
+       <div className="flex justify-between items-center">
+        <label 
+          className="block bg-blue-500 text-white font-semibold rounded-lg px-4 py-2 cursor-pointer hover:bg-blue-600 transform transition-transform hover:-translate-y-1"
+          htmlFor='fileinput'
+        >
           Upload File
-        <input type="file" className="hidden" onChange={(e) => setFile(e.target.files?.[0])}/>
+          <input 
+            type="file" 
+            className="hidden" 
+            onChange={(e) => setFile(e.target.files?.[0])}
+            id='fileinput'
+          />
         </label>
-        <button
-          className="block bg-green-500 text-white font-semibold rounded-lg px-4 py-2 cursor-pointer hover:bg-green-600 transform transition-transform hover:-translate-y-1"
-          type='submit'>
-           Share
-        </button>
-       </form>
+        <form action="" onClick={handleSubmit}>
+          <button
+            className="block bg-green-500 text-white font-semibold rounded-lg px-4 py-2 cursor-pointer hover:bg-green-600 transform transition-transform hover:-translate-y-1"
+            type='submit'>
+            Share
+          </button>
+        </form>
+       </div>
     </div>
   )
 }
