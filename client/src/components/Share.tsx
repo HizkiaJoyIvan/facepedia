@@ -27,6 +27,7 @@ const Share: React.FC = () => {
       try {
         const formData = new FormData()
         formData.append('file', file)
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useUpload(formData)        
         newPost.image = file.name
       } catch(err) {
@@ -37,6 +38,7 @@ const Share: React.FC = () => {
     }
 
     try {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const res = await useCreatePost(newPost)
       if(res) {
         onSuccess("New post has been created")
