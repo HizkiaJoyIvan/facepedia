@@ -11,7 +11,7 @@ import { PostData, UserDetailData } from '../utils/types'
 const Post: React.FC<PostData> = ({userId, desc, image, likes, createdAt}) => {
 
     const {userInfo} = useContext(AuthContext)
-    const publicFolder = "http://localhost:3200/api/images/"
+    const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
     const [postUserdata, setPostUserdata] = useState<UserDetailData>()
 
     useEffect(()=> {

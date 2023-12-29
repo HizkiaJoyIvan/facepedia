@@ -10,7 +10,7 @@ const Settings: React.FC = () => {
     const {userInfo} = useContext(AuthContext)
     const userID = userInfo?.userInfo.id
     const [userdata, setUserdata] = useState<UserDetailData>()
-    const publicFolder = "http://localhost:3200/api/images/"
+    const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
 
     useEffect(() => {
         const fetchData = async () => {

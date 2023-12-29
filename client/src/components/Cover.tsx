@@ -17,7 +17,7 @@ const Cover: React.FC<ProfileID> = ({id}) => {
   const {onError} = UseNotifications()
   const userID = userInfo?.userInfo.id
 
-  const publicFolder = "http://localhost:3200/api/images/"
+  const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
 
   useEffect(()=> {
     const fetchData = async () => {

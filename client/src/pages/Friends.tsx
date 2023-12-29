@@ -17,7 +17,7 @@ const Friends: React.FC = () => {
   const [friendlist, setFriendlist] = useState<FriendData[]>()
   const {id} = useParams<string>()
   const {onError} = UseNotifications()
-  const publicFolder = "http://localhost:3200/api/images/"
+  const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
 
   useEffect(() => {
     const fetchData = async () => {
