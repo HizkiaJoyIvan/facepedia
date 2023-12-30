@@ -8,6 +8,7 @@ import { AuthContext } from './context/AuthContext'
 import Profile from './pages/Profile'
 import Friends from './pages/Friends'
 import Settings from './pages/Settings'
+import NotFound from './pages/NotFound'
 
 const App:React.FC = () => {
 
@@ -22,6 +23,7 @@ const App:React.FC = () => {
         <Route path='/profile/:id' element={userInfo?.isLoggedIn ? <Profile /> : <Login />}/>
         <Route path='/friends/:id' element={<Friends />}/>
         <Route path='/settings' element={<Settings />}/>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
