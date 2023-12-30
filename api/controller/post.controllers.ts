@@ -94,3 +94,33 @@ export const createPost = async (req: Request, res: Response) => {
         return res.status(500).json(err)
     }
 }
+
+export const likePost = async (req: Request, res: Response) => {
+    try {
+        const postID = req.params.id
+        const { userID } = req.body
+        const post = await Post.findById(postID)
+        const currentUser = await User.findById(userID)
+        if(post && currentUser) {
+            if(!post.likes.includes(userID)) {
+                await post.updateOne({$push: {likes: userID}})
+                return res.status(200).json({
+                    message: "You has liked this post"
+                })
+            }
+            else {
+                return res.status(403).json({
+                    message: "You already liked this post"
+                })
+            }
+        }
+        else {
+            return res.status(404).json({
+                message: "Post not found"
+            })
+        }
+
+    } catch(err) {
+        return res.status(500).json(err)
+    }
+}

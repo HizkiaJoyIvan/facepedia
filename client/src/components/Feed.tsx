@@ -31,6 +31,7 @@ const Feed: React.FC = () => {
       <Share />
       {posts.map((p) => (
         <Post 
+          _id={p._id || ""}
           userId={p.userId}
           desc={p.desc}
           image={p?.image || ""}

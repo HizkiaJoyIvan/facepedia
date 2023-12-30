@@ -39,6 +39,7 @@ export interface GeneralAPIMutateResponse {
 }
 
 export type GeneralUserDetailResponse = GeneralAPIResponse<UserDetailData> 
+export type GeneralPostDetailResponse = GeneralAPIResponse<PostData> 
 export type GeneralUserRegisterResponse = GeneralAPIResponse<UserAuthData> 
 export type GeneralUserLoginResponse = GeneralAPIResponse<UserAuthData> & { token: string }
 export type GeneralPostResponse = GeneralAPIResponse<PostData[]>

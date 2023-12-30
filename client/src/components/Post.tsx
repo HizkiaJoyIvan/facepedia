@@ -7,12 +7,18 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import useGetUserDetail from '../utils/hooks/useGetUserDetail'
 import { PostData, UserDetailData } from '../utils/types'
+import useLikePost from '../utils/hooks/useLikePost'
+import useGetPostDetail from '../utils/hooks/useGetPostDetail'
 
-const Post: React.FC<PostData> = ({userId, desc, image, likes, createdAt}) => {
+const Post: React.FC<PostData> = ({_id = '', userId, desc, image, likes, createdAt}) => {
 
     const {userInfo} = useContext(AuthContext)
+    const currentUserID = userInfo?.userInfo.id
     const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
     const [postUserdata, setPostUserdata] = useState<UserDetailData>()
+
+    const [recentLikes, setRecentLikes] = useState<number>(0)
+    const [loading, setLoading] = useState(false)
 
     useEffect(()=> {
       const fetchData = async () => {
@@ -27,6 +33,19 @@ const Post: React.FC<PostData> = ({userId, desc, image, likes, createdAt}) => {
       fetchData()
     }, [])
 
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const { data } = await useGetPostDetail(_id)
+          setRecentLikes(data.likes?.length ?? 0)
+        } catch(err) {
+          console.log(err)
+        }
+      }
+      fetchData()
+    }, [loading])
+
     const getFileComponent = () => {
       const extension = image?.substring(image.lastIndexOf('.') + 1).toLowerCase()
       if (extension === 'png' || extension === 'jpg') {
@@ -35,6 +54,17 @@ const Post: React.FC<PostData> = ({userId, desc, image, likes, createdAt}) => {
         return <video controls className="w-1/2 h-1/2"><source src={publicFolder + image} type="video/mp4" /></video>
       } else {
         return null
+      }
+    }
+
+    const handleLike = async () => {
+      try {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        await useLikePost(currentUserID,_id)
+        setLoading(!loading)
+      }
+      catch(err) {
+        console.log(err)
       }
     }
 
@@ -64,8 +94,11 @@ const Post: React.FC<PostData> = ({userId, desc, image, likes, createdAt}) => {
         {image && getFileComponent()}
         <div className='flex items-center gap-5 mt-2'>
           <div className="flex gap-1 items-center">
-            <ThumbUp className='cursor-pointer hover:scale-105 hover:text-blue-500'/>
-            <p className='text-slate-600 text-sm font-semibold'>{likes?.length}</p>
+            <ThumbUp 
+              className='cursor-pointer hover:scale-105 hover:text-blue-500'
+              onClick={handleLike}
+            />
+            <p className='text-slate-600 text-sm font-semibold'>{recentLikes}</p>
           </div>
             <Favorite className='cursor-pointer hover:scale-105 hover:text-red-500'/>
         </div>
