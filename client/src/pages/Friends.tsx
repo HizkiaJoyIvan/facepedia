@@ -40,32 +40,34 @@ const Friends: React.FC = () => {
                 <Leftbar />
                 <div className="p-5">
                   <p className="font-bold text-gray-600 text-xl mb-5">Your Friends</p>
-                  {friendlist?.map((friend) => (
-                    <Link to={`/profile/${friend._id}`}>
-                      <div className="flex justify-between items-center bg-gray-100 p-4 rounded-md hover:scale-105">
-                        {friend.profilePicture === "" ? 
-                          (
-                            <img
-                              className="h-9 w-9 object-cover rounded-full  mr-2"
-                              src={publicFolder + "DefaultPP.jpg"}
-                              alt="user photo profile"
-                            />
-                          ) :
-                          (
-                            <img
-                              className="h-9 w-9 object-cover rounded-full  mr-2"
-                              src={publicFolder + friend?.profilePicture}
-                              alt="user photo profile"
-                            />
-                          )
-                        }
-                        <div className="flex flex-col gap-1">
-                          <p className='text-slate-800 font-bold'>{friend.username}</p>
-                          <p className='text-slate-500 font-medium text-xs'>{friend.email}</p>
+                  <div className="flex flex-col gap-3">
+                    {friendlist?.map((friend) => (
+                      <Link to={`/profile/${friend._id}`}>
+                        <div className="flex gap-5 items-center bg-white p-4 rounded-md hover:scale-105 shadow-md">
+                          {friend.profilePicture === "" ? 
+                            (
+                              <img
+                                className="h-9 w-9 object-cover rounded-full  mr-2"
+                                src={publicFolder + "DefaultPP.jpg"}
+                                alt="user photo profile"
+                              />
+                            ) :
+                            (
+                              <img
+                                className="h-9 w-9 object-cover rounded-full  mr-2"
+                                src={publicFolder + friend?.profilePicture}
+                                alt="user photo profile"
+                              />
+                            )
+                          }
+                          <div className="flex flex-col gap-1">
+                            <p className='text-slate-800 font-bold'>{friend.username}</p>
+                            <p className='text-slate-500 font-medium text-xs'>{friend.email}</p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
             </div>
           </>

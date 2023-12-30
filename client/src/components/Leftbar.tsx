@@ -6,22 +6,38 @@ import { FaHome } from "react-icons/fa"
 import { IoSettings } from "react-icons/io5"
 import { IoPerson } from "react-icons/io5"
 import { FaUserFriends } from "react-icons/fa"
+import useGetUserDetail from '../utils/hooks/useGetUserDetail'
+import { UserDetailData } from '../utils/types'
 
 const Leftbar: React.FC = () => {
 
   const {userInfo} = useContext(AuthContext)
   const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
+  const [userdata, setUserdata] = useState<UserDetailData>()
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const { data } = await useGetUserDetail(userInfo?.userInfo?.id)
+        setUserdata(data)
+      } catch(err) {
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <div className='w-[20%] p-3 flex flex-col gap-8 bg-gray-50'>
       <div className="p-5 bg-white shadow-md rounded-md hover:scale-110 flex gap-2 items-center cursor-pointer">
         <img
               className="h-12 w-12 object-cover rounded-full"
-              src={publicFolder + userInfo?.userInfo?.profilePicture}
+              src={publicFolder + userdata?.profilePicture}
               alt="user photo profile"
         />
         <div className='mr-2'>
-          <div className="text-xl font-bold text-slate-800">{userInfo?.userInfo?.username}</div>
+          <div className="text-xl font-bold text-slate-800">{userdata?.username}</div>
           <div className="text-slate-600 font-semibold text-sm">{userInfo?.userInfo?.email}</div>
         </div>
       </div>
