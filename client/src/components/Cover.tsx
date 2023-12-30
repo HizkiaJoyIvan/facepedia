@@ -63,7 +63,7 @@ const Cover: React.FC<ProfileID> = ({id}) => {
                 <div className="flex absolute bottom-8 left-10 items-center">
                     <img
                         className="h-40 w-40 object-cover rounded-full border-4 border-white"
-                        src={publicFolder + "Founder.jpg"}
+                        src={publicFolder + userdata?.profilePicture}
                         alt="Top Image"
                         style={{ zIndex: 1 }}
                     />

@@ -43,7 +43,7 @@ const Post: React.FC<PostData> = ({userId, desc, image, likes, createdAt}) => {
         <div className="flex items-center mb-4 gap-2">
           <img
               className="h-12 w-12 object-cover rounded-full  mr-2"
-              src={publicFolder + "Founder.jpg"}
+              src={publicFolder + postUserdata?.profilePicture}
               alt="user photo profile"
           />
           <div className="flex flex-col gap-0.5">

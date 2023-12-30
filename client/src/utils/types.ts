@@ -16,7 +16,7 @@ export interface PostData {
 
 export interface UserDetailData {
     username: string
-    email: string
+    email?: string
     profilePicture?: string
     followings?: string[]
     followers?: string[]

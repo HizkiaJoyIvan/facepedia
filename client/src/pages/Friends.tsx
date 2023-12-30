@@ -44,11 +44,22 @@ const Friends: React.FC = () => {
                   {friendlist?.map((friend) => (
                     <Link to={`/profile/${friend._id}`}>
                       <div className="flex justify-between items-center bg-gray-100 p-4 rounded-md hover:scale-105">
-                        <img
-                          className="h-9 w-9 object-cover rounded-full  mr-2"
-                          src={publicFolder + "Founder.jpg"}
-                          alt="user photo profile"
-                        />
+                        {friend.profilePicture === "" ? 
+                          (
+                            <img
+                              className="h-9 w-9 object-cover rounded-full  mr-2"
+                              src={publicFolder + "DefaultPP.jpg"}
+                              alt="user photo profile"
+                            />
+                          ) :
+                          (
+                            <img
+                              className="h-9 w-9 object-cover rounded-full  mr-2"
+                              src={publicFolder + friend?.profilePicture}
+                              alt="user photo profile"
+                            />
+                          )
+                        }
                         <div className="flex flex-col gap-1">
                           <p className='text-slate-800 font-bold'>{friend.username}</p>
                           <p className='text-slate-500 font-medium text-xs'>{friend.email}</p>

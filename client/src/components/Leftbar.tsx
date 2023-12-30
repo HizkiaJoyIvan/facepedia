@@ -7,42 +7,17 @@ import { IoSettings } from "react-icons/io5"
 import { IoPerson } from "react-icons/io5"
 import { FaUserFriends } from "react-icons/fa"
 
-export interface userData {
-  username: string
-  email: string
-  profilePicture: string
-  followings?: string[]
-  followers?: string[]
-}
-
 const Leftbar: React.FC = () => {
 
-  const [userdata, setUserdata] = useState<userData>()
   const {userInfo} = useContext(AuthContext)
   const publicFolder = process.env.REACT_APP_BACKEND_URI + "/images/"
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get(`http://localhost:3200/api/user/${userId}`)
-  //       setUserdata({
-  //         username: res.data.username,
-  //         email: res.data.email,
-  //         profilePicture: res.data.profilePicture
-  //       })
-  //     } catch(err) {
-  //       console.log(err)
-  //     }
-  //   }
-  //   fetchData()
-  // }, [])
 
   return (
     <div className='w-[20%] p-3 flex flex-col gap-8 bg-gray-50'>
       <div className="p-5 bg-white shadow-md rounded-md hover:scale-110 flex gap-2 items-center cursor-pointer">
         <img
               className="h-12 w-12 object-cover rounded-full"
-              src={publicFolder + "Founder.jpg"}
+              src={publicFolder + userInfo?.userInfo?.profilePicture}
               alt="user photo profile"
         />
         <div className='mr-2'>

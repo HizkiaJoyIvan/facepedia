@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
             message: "Wrong Password"
         })
         
-        const accessToken = jwt.sign({id: user._id, username: user.username, email: user.email}, process.env.JWT_SECRET_KEY as string, {expiresIn: '12h'})
+        const accessToken = jwt.sign({id: user._id, username: user.username, email: user.email, profilePicture: user.profilePicture}, process.env.JWT_SECRET_KEY as string, {expiresIn: '12h'})
         
         return res.status(200).json({
             data: user,
