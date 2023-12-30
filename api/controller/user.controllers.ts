@@ -16,6 +16,28 @@ export const getUser = async (req: Request, res: Response) => {
     }
 }
 
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const { search } = req.query
+        let query = {}
+
+        if(search) {
+            const searchRegex = new RegExp(`^${search as string}`, 'i')
+            query = { username: searchRegex }
+        }
+
+        const users = await User.find(query)
+        if(!users) res.status(404).json({
+            message: "Users not found"
+        })
+        return res.status(200).json({
+            data: users
+        })
+    } catch(err) {
+        return res.status(500).json(err)
+    }
+}
+
 export const deleteUser = async (req: Request, res: Response) => {
     const otherUserId = req.body.userId
     const userId = req.params.id

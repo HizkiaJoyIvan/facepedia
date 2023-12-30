@@ -1,11 +1,13 @@
 import express, { Router } from 'express'
-import { deleteUser, getUser, updateUser, createUser, followUser, unfollowUser, getFriends } from '../controller/user.controllers'
+import { deleteUser, getUser, updateUser, createUser, followUser, unfollowUser, getFriends, getAllUsers } from '../controller/user.controllers'
 import { verifyToken } from '../middleware/auth.middleware'
 const router: Router = express.Router()
 
 router.use(verifyToken)
 
 router.get('/:id', getUser)
+
+router.get('/', getAllUsers)
 
 router.delete('/:id', deleteUser)
 

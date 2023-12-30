@@ -15,6 +15,7 @@ export interface PostData {
 }
 
 export interface UserDetailData {
+    _id?: string
     username: string
     email?: string
     profilePicture?: string
